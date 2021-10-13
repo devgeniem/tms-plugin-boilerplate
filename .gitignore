@@ -6,7 +6,6 @@ svn
 
 # Do not track lock files
 composer.lock
-package-lock.json
 
 # Do not track package files
 vendor
