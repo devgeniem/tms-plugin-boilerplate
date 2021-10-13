@@ -1,6 +1,7 @@
 /**
  * Webpack Build Configurations
- * @var {webpack} webpack
+ *
+ * @member {webpack} webpack
  */
 const webpack = require( 'webpack' );
 const path = require( 'path' );
@@ -15,26 +16,26 @@ const loaders = {
     cssLoader: {
         loader: 'css-loader',
         options: {
-            sourceMap: true
-        }
+            sourceMap: true,
+        },
     },
     postCss: {
         loader: 'postcss-loader',
         options: {
-            sourceMap: true
-        }
+            sourceMap: true,
+        },
     },
     sassLoader: {
         loader: 'sass-loader',
         options: {
-            sourceMap: true
-        }
-    }
+            sourceMap: true,
+        },
+    },
 };
 
 /**
  * @typedef webpack.Configuration
- * @var {webpack.Configuration} config
+ * @member {webpack.Configuration} config
  */
 const config = {
     mode: isProduction ? 'production' : 'development',
@@ -47,16 +48,16 @@ const config = {
     },
     entry: {
         public: 'scripts/public.js',
-        admin: 'scripts/admin.js'
+        admin: 'scripts/admin.js',
     },
     output: {
         path: path.resolve( __dirname, 'assets', 'dist' ),
         filename: '[name].js',
-        clean: true
+        clean: true,
     },
     externals: {
         // Set jQuery to be an external resource.
-        'jquery': 'jQuery'
+        'jquery': 'jQuery',
     },
     plugins: [
         // Extract all css into one file.
@@ -65,8 +66,8 @@ const config = {
         // Provide jQuery instance for all modules.
         new webpack.ProvidePlugin( {
             '$': 'jquery',
-            jQuery: 'jquery'
-        } )
+            'jQuery': 'jquery',
+        } ),
     ],
     module: {
         rules: [
@@ -85,45 +86,45 @@ const config = {
                         presets: [ '@babel/preset-env' ],
 
                         // Enable dynamic imports.
-                        plugins: [ '@babel/plugin-syntax-dynamic-import' ]
-                    }
-                }
+                        plugins: [ '@babel/plugin-syntax-dynamic-import' ],
+                    },
+                },
             },
             {
                 test: /\.css$/,
-                use: [ MiniCssExtractPlugin.loader, loaders.cssLoader, loaders.postCss ]
+                use: [ MiniCssExtractPlugin.loader, loaders.cssLoader, loaders.postCss ],
             },
             {
                 test: /\.scss$/,
-                use: [ MiniCssExtractPlugin.loader, loaders.cssLoader, loaders.sassLoader ]
+                use: [ MiniCssExtractPlugin.loader, loaders.cssLoader, loaders.sassLoader ],
             },
             {
                 test: /\.(woff(2)?|eot|ttf|otf)(\?[a-z0-9=\.]+)?$/,
                 use: {
-                    loader: 'url-loader?name=../fonts/[name].[ext]'
-                }
+                    loader: 'url-loader?name=../fonts/[name].[ext]',
+                },
             },
             {
                 test: /\.(svg|gif|png|jpeg|jpg)(\?[a-z0-9=\.]+)?$/,
                 use: {
-                    loader: 'url-loader?name=../images/[name].[ext]'
-                }
-            }
-        ]
+                    loader: 'url-loader?name=../images/[name].[ext]',
+                },
+            },
+        ],
     },
     watchOptions: {
-        poll: 500
+        poll: 500,
     },
     optimization: {
         runtimeChunk: false,
-        mangleExports: "size",
+        mangleExports: 'size',
         minimize: isProduction,
         minimizer: [
             new CssMinimizerPlugin( { parallel: true } ),
             new TerserPlugin( {
                 extractComments: {
                     condition: /^\**!|@preserve|@license|@cc_on/i,
-                    filename: "licenses.txt",
+                    filename: 'licenses.txt',
                     banner: ( licenseFile ) => {
                         return `License information can be found in ${ licenseFile }`;
                     },
@@ -133,18 +134,18 @@ const config = {
                     mangle: true, // Note `mangle.properties` is `false` by default.
                     module: false,
                     output: {
-                        comments: false
-                    }
+                        comments: false,
+                    },
                 },
             } ),
-        ]
+        ],
     },
     stats: {
         assets: false,
         modules: false,
         builtAt: false,
         timings: false,
-        version: false
+        version: false,
     },
 };
 
